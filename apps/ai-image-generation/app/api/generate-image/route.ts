@@ -40,6 +40,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "prompt required" }, { status: 400 });
     }
 
+    if (prompt.length > 4000) {
+      return NextResponse.json({ error: "Prompt is too long" }, { status: 400 });
+    }
+
     const imageBuffer = await genWithOpenAI(prompt);
 
     return new NextResponse(new Uint8Array(imageBuffer), {
